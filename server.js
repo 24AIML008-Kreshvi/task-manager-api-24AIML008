@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
@@ -16,6 +17,7 @@ app.use((req, res, next) => {
   });
   next();
 });
+app.use(cors({ origin: ['http://localhost:5173', 'http://127.0.0.1:5173'] }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
