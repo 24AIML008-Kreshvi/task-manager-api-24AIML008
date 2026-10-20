@@ -82,7 +82,7 @@ app.post('/register', requireJson, validateCredentials, asyncRoute(async (req, r
 }));
 
 app.post('/login', requireJson, validateCredentials, asyncRoute(async (req, res) => {
-  const user = await User.findOne({ email: req.normalizedEmail });
+  const user = await User.findOne({ email: req.normalizedEmail }).select('+password');
   if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
     return res.status(401).json({ error: 'Unauthorized', message: 'Invalid email or password' });
   }
