@@ -59,3 +59,14 @@ Invalid input returns structured JSON with HTTP 400; unavailable valid ObjectIds
 8. Terminal showing MongoDB connected successfully.
 
 **Data persistence:** Unlike Practical 4, created tasks survive server restart. `.env` must remain private.
+
+
+## Practical 7 — Authentication and Middleware
+
+Endpoints: `POST /register` (201), `POST /login` (JWT, 1 hour), `GET /me`, and JWT-protected `GET/POST/PUT/DELETE /tasks`. Passwords are hashed with bcryptjs, task requests have input validation before MongoDB, and task documents are scoped to the logged-in user.
+
+**Required local setup:** run `npm install`, create a local `.env` from `.env.example` and set `JWT_SECRET` to a unique cryptographically random string **at least 32 characters long**. In PowerShell generate it with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Never commit your `.env` or share your secret or JWT token. Start MongoDB, then `npm start`.
+
+**Testing:** register a user, log in, copy the token to an `Authorization: Bearer <token>` header, test `GET /tasks`, then repeat without a token and with malformed task data.
+
+Prior Practical 6 task documents without an `owner` field are preserved in MongoDB but excluded from authenticated users' task lists. Newly created authenticated tasks are owned by the signed-in user.
